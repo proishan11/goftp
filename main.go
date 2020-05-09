@@ -2,22 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net"
 	"os"
-)
 
-const (
-	defaultPort = 8000
-	defaultURL  = "localhost"
+	"github.com/proishan11/go-ftp/server"
 )
-
-func handleConn(c net.Conn) {
-	io.Copy(c, c)
-	c.Close()
-	return
-}
 
 func main() {
 	var port string
@@ -33,7 +23,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("Server started on port %s \n", port)
-
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -41,6 +30,6 @@ func main() {
 			continue
 		}
 
-		go handleConn(conn)
+		go server.HandleConnection(conn)
 	}
 }
